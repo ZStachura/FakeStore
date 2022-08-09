@@ -1,0 +1,10 @@
+<h2 mat-dialog-title style="text-transform:uppercase" *ngFor="let item of categoriesData |slice:0:1">{{item.category}}</h2>
+<mat-dialog-content class="categoryDialog">
+  <mat-list *ngFor="let item of categoriesData">
+    <div mat-list-item>
+      <h4 class="categoryItemTitle">{{item.title}}</h4>
+      <p class="categoryItemDescription">{{item.description}}</p>
+      <h6 class="categoryItemPrice">{{item.price}} $</h6>
+    </div>
+  </mat-list>
+</mat-dialog-content>

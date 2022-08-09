@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { ApiService } from './Api.service';
 import { User } from './User';
 import { TokenService } from './Token.service';
-import { CategoryData } from './CategoryData';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,7 @@ export class AppComponent implements OnInit{
   
   users: User[]=[];
   categories: Array<String>=[];
-  categoriesData: CategoryData[]=[];
-  constructor(private api: ApiService, private storeToken: TokenService){}
+  constructor(private api: ApiService, private storeToken: TokenService, public dialog: MatDialog){}
 
   ngOnInit(){
     this.api.getUsers().subscribe({next: users=>{this.users=users}})
@@ -33,10 +33,7 @@ export class AppComponent implements OnInit{
 
   getData(name:String)
   {
-    this.api.getData(name).subscribe(categoriesData=>{this.categoriesData=categoriesData})
-    
+    const dialogRef=this.dialog.open(DialogComponent,{data: name});
   }
-
-
 }
 

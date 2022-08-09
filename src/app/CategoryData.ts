@@ -4,5 +4,5 @@ export interface CategoryData {
     price:String,
     category:String,
     description:String,
-    image:any
+    image:Blob
 }

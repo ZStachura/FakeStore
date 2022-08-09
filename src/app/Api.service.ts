@@ -36,7 +36,7 @@ logIn(username:String,password:String):Observable<any>
 
 getCategories():Observable<any>
 {
-    return this.http.get<User[]>('https://fakestoreapi.com/products/categories').pipe(
+    return this.http.get<any>('https://fakestoreapi.com/products/categories').pipe(
         catchError(err => {
             throw 'Error';
         }))
