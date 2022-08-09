@@ -14,6 +14,9 @@ import { DialogComponent } from './dialog/dialog.component';
 export class AppComponent implements OnInit{
   title = 'FakeStore';
   
+  LoginHeader:boolean=true;
+  CategoryHeader:boolean=false;
+
   users: User[]=[];
   categories: Array<String>=[];
   constructor(private api: ApiService, private storeToken: TokenService, public dialog: MatDialog){}
@@ -28,6 +31,8 @@ export class AppComponent implements OnInit{
       this.storeToken.storeToken(response);
       console.log(response)
     }).unsubscribe();
+    this.LoginHeader=false;
+    this.CategoryHeader=true;
     this.api.getCategories().subscribe({next: category=>{this.categories=category}})
   }
 

@@ -1,9 +1,16 @@
-<h1>Users</h1>
-<mat-list class="users_list" *ngFor="let user of users">
- <p mat-list-item (click)="logIn(user.username,user.password)">Username: {{user.username}}</p>
+<div class="LoginHeader"  *ngIf="LoginHeader">
+<h1 class="title">Choose username to log in</h1>
+<div class="list">
+<mat-list  *ngFor="let user of users">
+ <p mat-list-item (click)="logIn(user.username,user.password)">{{user.username}}</p>
 </mat-list>
-<h1>Categories</h1>
+</div>
+</div>
+<div class="CategoryHeader"  *ngIf="CategoryHeader">
+<h1 class="title" >Categories</h1>
+<div class="list">
 <mat-list class="categories_list" *ngFor="let category of categories">
   <p mat-list-item (click)="getData(category)">{{category}}</p>
 </mat-list>
-<h2>Data</h2>
+</div>
+</div>

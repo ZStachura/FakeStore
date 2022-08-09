@@ -13,11 +13,13 @@ import { Authinterceptor } from './Authinterceptor';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
+import { RetryDialogComponent } from './retryDialog/retryDialog.component';
 
 @NgModule({
-  declarations: [			
+  declarations: [				
     AppComponent,
-    DialogComponent
+    DialogComponent,
+      RetryDialogComponent
    ],
   imports: [
     BrowserAnimationsModule,
