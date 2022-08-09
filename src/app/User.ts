@@ -1,0 +1,23 @@
+export interface User {
+    email:String;
+    username:String;
+    password:String;
+    name:
+    {
+        firstname:String;
+        lastname:String;
+    };
+    address:
+    {
+        city:String;
+        street:String;
+        number:String;
+        zipcode:String;
+        geolocation:
+        {
+            lat:String;
+            long:String;
+        };
+    }
+        phone:String;
+}
