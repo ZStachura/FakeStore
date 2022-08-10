@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, retry } from 'rxjs';
+import { catchError, delay, mergeMap, Observable, of, retry, retryWhen, tap, throwError } from 'rxjs';
 import { User } from './User';
 import { TokenService } from './Token.service';
 import { CategoryData } from './CategoryData';
@@ -18,18 +18,7 @@ constructor(private http: HttpClient, private token:TokenService, private ifretr
 
 getUsers():Observable<User[]>
 {
-    return this.http.get<User[]>('https://fakestoreapi.com/users').pipe(
-        catchError((err)=>
-            {
-                this.ifretry.storeRetry(false);
-                const dialogRef=this.dialog.open(RetryDialogComponent);
-                if(this.ifretry.getRetry()==true)
-                {
-                    retry(1);
-                }
-                throw 'Error';
-            }))
-
+    return this.http.get<User[]>('https://fakestoreapi.com/users')
 }
 
 logIn(username:String,password:String):Observable<any>
@@ -38,46 +27,18 @@ logIn(username:String,password:String):Observable<any>
         username: username,
         password: password
     }
-    return this.http.post<any>('https://fakestoreapi.com/auth/login',body).pipe(
-        catchError((err)=>
-            {
-                this.ifretry.storeRetry(false);
-                const dialogRef=this.dialog.open(RetryDialogComponent);
-                if(this.ifretry.getRetry()==true)
-                {
-                    retry(1);
-                }
-                throw 'Error';
-            }))
+    return this.http.post<any>('https://fakestoreapi.com/auth/login',body)
+
 }
 
 getCategories():Observable<any>
 {
-    return this.http.get<any>('https://fakestoreapi.com/products/categories').pipe(
-        catchError((err)=>
-            {
-                this.ifretry.storeRetry(false);
-                const dialogRef=this.dialog.open(RetryDialogComponent);
-                if(this.ifretry.getRetry()==true)
-                {
-                    retry(1);
-                }
-                throw 'Error';
-            }))
+    return this.http.get<any>('https://fakestoreapi.com/products/categories')
 }
 
 getData(category:String):Observable<CategoryData[]>
 {
-    return this.http.get<CategoryData[]>(`https://fakestoreapi.com/products/category/${category}`).pipe(
-        catchError((err)=>
-            {
-                this.ifretry.storeRetry(false);
-                const dialogRef=this.dialog.open(RetryDialogComponent);
-                if(this.ifretry.getRetry()==true)
-                {
-                    retry(1);
-                }
-                throw 'Error';
-            }))
+    return this.http.get<CategoryData[]>(`https://fakestoreapi.com/products/category/${category}`)
 }
+
 }

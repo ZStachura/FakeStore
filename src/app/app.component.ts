@@ -6,6 +6,10 @@ import { TokenService } from './Token.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
 
+import { UntilDestroy, untilDestroyed} from '@ngneat/until-destroy'
+
+@UntilDestroy()
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,18 +26,18 @@ export class AppComponent implements OnInit{
   constructor(private api: ApiService, private storeToken: TokenService, public dialog: MatDialog){}
 
   ngOnInit(){
-    this.api.getUsers().subscribe({next: users=>{this.users=users}})
+    this.api.getUsers().pipe(untilDestroyed(this)).subscribe({next: users=>{this.users=users}})
   }
 
   logIn(username:String,password:String)
   {
-    this.api.logIn(username,password).subscribe((response:String)=>{
+    this.api.logIn(username,password).pipe(untilDestroyed(this)).subscribe((response:String)=>{
       this.storeToken.storeToken(response);
       console.log(response)
     }).unsubscribe();
     this.LoginHeader=false;
     this.CategoryHeader=true;
-    this.api.getCategories().subscribe({next: category=>{this.categories=category}})
+    this.api.getCategories().pipe(untilDestroyed(this)).subscribe({next: category=>{this.categories=category}})
   }
 
   getData(name:String)
