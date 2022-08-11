@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { ApiService } from './Api.service';
 import { User } from './User';
 import { TokenService } from './Token.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
 import { LoaderService } from './Loader.service';
+import { fromEvent } from 'rxjs';
+import { debounceTime, map } from 'rxjs';
 
 import { UntilDestroy, untilDestroyed} from '@ngneat/until-destroy'
+import { SearchDialogComponent } from './searchDialog/searchDialog.component';
 
 @UntilDestroy()
 
@@ -24,11 +27,28 @@ export class AppComponent implements OnInit{
 
   users: User[]=[];
   categories: Array<String>=[];
+  onSearch: any;
   constructor(private api: ApiService, private storeToken: TokenService, public dialog: MatDialog,private loader:LoaderService){}
+
+  @ViewChild('searchinput')
+  input!: ElementRef;
+
+
+ngAfterViewInit(): void {
+ const terms = fromEvent<any>(this.input.nativeElement, 'keyup')
+      .pipe(
+        map(event => event.target.value),
+        debounceTime(500)
+      );
+  terms.subscribe(txt=>{
+    const dialogRef=this.dialog.open(SearchDialogComponent,{data: txt});
+  })
+}
+
 
   ngOnInit(){
     this.loader.show()
-    this.api.getUsers().pipe(untilDestroyed(this)).subscribe({next: users=>{this.users=users,this.loader.hide()}},)
+    this.api.getUsers().pipe(untilDestroyed(this)).subscribe({next: users=>{this.users=users,this.loader.hide()}})
   }
 
   logIn(username:String,password:String)

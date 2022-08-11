@@ -16,13 +16,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { RetryDialogComponent } from './retryDialog/retryDialog.component';
 import { LoaderComponent } from './loader/loader.component';
+import { SearchDialogComponent } from './searchDialog/searchDialog.component';
 
 @NgModule({
-  declarations: [					
+  declarations: [						
     AppComponent,
     DialogComponent,
       RetryDialogComponent,
-      LoaderComponent
+      LoaderComponent,
+      SearchDialogComponent
    ],
   imports: [
     BrowserAnimationsModule,

@@ -1,6 +1,7 @@
 <app-loader></app-loader>
 <div class="LoginHeader" *ngIf="LoginHeader">
 <h1 class="title">Choose username to log in</h1>
+<input type="search" #searchinput/>
 <div class="list">
 <mat-list  *ngFor="let user of users">
  <p mat-list-item (click)="logIn(user.username,user.password)">{{user.username}}</p>

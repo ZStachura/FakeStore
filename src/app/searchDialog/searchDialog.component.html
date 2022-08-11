@@ -1,0 +1,10 @@
+<h2 mat-dialog-title style="text-transform:uppercase" >{{name}}</h2>
+<mat-dialog-content class="categoryDialog">
+  <mat-list *ngFor="let item of searchData">
+    <div mat-list-item>
+      <h4 class="searchDataTitle"></h4>
+      <p class="searchDataDescription"></p>
+      <h6 class="searchDataPrice">$</h6>
+    </div>
+  </mat-list>
+</mat-dialog-content>
