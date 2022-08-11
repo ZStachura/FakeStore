@@ -10,16 +10,20 @@ import { DialogComponent } from './dialog/dialog.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Authinterceptor } from './Authinterceptor';
+import { LoaderInterceptor } from './Loaderinterceptor';
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { RetryDialogComponent } from './retryDialog/retryDialog.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
-  declarations: [				
+  declarations: [					
     AppComponent,
     DialogComponent,
-      RetryDialogComponent
+      RetryDialogComponent,
+      LoaderComponent
    ],
   imports: [
     BrowserAnimationsModule,
@@ -27,10 +31,12 @@ import { RetryDialogComponent } from './retryDialog/retryDialog.component';
     HttpClientModule,
     MatListModule,
     MatDialogModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressSpinnerModule
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS, useClass: Authinterceptor,multi:true}
+    {provide:HTTP_INTERCEPTORS, useClass: Authinterceptor,multi:true},
+    {provide:HTTP_INTERCEPTORS, useClass: LoaderInterceptor,multi:true}
   ],
   bootstrap: [AppComponent]
 })
