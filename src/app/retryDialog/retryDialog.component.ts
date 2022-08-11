@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IfRetryService } from '../ifRetry.service';
 
 @Component({
   selector: 'app-retryDialog',
@@ -8,10 +7,5 @@ import { IfRetryService } from '../ifRetry.service';
 })
 export class RetryDialogComponent {
 
-  constructor(private service: IfRetryService){}
-
-  retry()
-  {
-    this.service.storeRetry(true);
-  }
+  constructor(){}
 }

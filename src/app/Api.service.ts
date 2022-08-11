@@ -4,7 +4,6 @@ import { catchError, delay, mergeMap, Observable, of, retry, retryWhen, tap, thr
 import { User } from './User';
 import { TokenService } from './Token.service';
 import { CategoryData } from './CategoryData';
-import { IfRetryService } from './ifRetry.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RetryDialogComponent } from './retryDialog/retryDialog.component';
 
@@ -13,12 +12,24 @@ import { RetryDialogComponent } from './retryDialog/retryDialog.component';
 })
 export class ApiService {
 
-constructor(private http: HttpClient, private token:TokenService, private ifretry:IfRetryService, public dialog: MatDialog) { }
+constructor(private http: HttpClient, private token:TokenService, public dialog: MatDialog) { }
 
 
 getUsers():Observable<User[]>
 {
-    return this.http.get<User[]>('https://fakestoreapi.com/users')
+    return this.http.get<User[]>('https://fakestoreapi.com/users').pipe(
+        catchError(err=>{
+            console.log(err)
+            const dialogRef=this.dialog.open(RetryDialogComponent)
+            dialogRef.afterClosed().subscribe(res => {
+               if(res==true)
+            {
+                alert(res);
+                this.getUsers();
+            } })
+            return ([])
+        })
+    )
 }
 
 logIn(username:String,password:String):Observable<any>
@@ -27,18 +38,54 @@ logIn(username:String,password:String):Observable<any>
         username: username,
         password: password
     }
-    return this.http.post<any>('https://fakestoreapi.com/auth/login',body)
+    return this.http.post<any>('https://fakestoreapi.com/auth/login',body).pipe(
+        catchError(err=>{
+            console.log(err)
+            const dialogRef=this.dialog.open(RetryDialogComponent)
+            dialogRef.afterClosed().subscribe(res => {
+               if(res==true)
+            {
+                alert(res);
+                this.logIn(username,password);
+            } })
+            return ([])
+        })
+    )
 
 }
 
 getCategories():Observable<any>
 {
-    return this.http.get<any>('https://fakestoreapi.com/products/categories')
+    return this.http.get<any>('https://fakestoreapi.com/products/categories').pipe(
+        catchError(err=>{
+            console.log(err)
+            const dialogRef=this.dialog.open(RetryDialogComponent)
+            dialogRef.afterClosed().subscribe(res => {
+            alert(res);
+            {
+                alert(res);
+                this.getCategories()
+            } }
+            )
+            return ([])}
+    )
+    )
 }
 
 getData(category:String):Observable<CategoryData[]>
 {
-    return this.http.get<CategoryData[]>(`https://fakestoreapi.com/products/category/${category}`)
+    return this.http.get<CategoryData[]>(`https://fakestoreapi.com/products/category/${category}`).pipe(
+        catchError(err=>{
+            console.log(err)
+            const dialogRef=this.dialog.open(RetryDialogComponent)
+            dialogRef.afterClosed().subscribe(res => {
+            if(res==true)
+            {
+                alert(res);
+                this.getData(category)
+            } })
+            return ([])}
+    ))
 }
 
 }
